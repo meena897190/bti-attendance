@@ -1,0 +1,171 @@
+Create a FULL STACK Smart Attendance Monitoring System with an advanced modern UI and efficient attendance record management.
+🚨 IMPORTANT REQUIREMENTS:
+Start with EMPTY database
+No default users or dummy data
+Everything should be created dynamically
+Clean and professional UI
+Mobile responsive design
+🏗 TECH STACK: Frontend:
+React.js + Tailwind CSS
+Backend:
+Node.js + Express.js
+Database:
+MongoDB
+━━━━━━━━━━━━━━━━━━━━━━━ 🎓 BRANCH-WISE STUDENT MANAGEMENT ━━━━━━━━━━━━━━━━━━━━━━━
+Students must be arranged branch-wise.
+Create separate branches:
+CSE
+AIML
+CE (Computer Engineering)
+CIVIL
+MECHANICAL
+ISE
+CSDS
+Each branch should have:
+Separate student list
+Separate attendance records
+Separate subject management
+Separate filtering and reports
+Student Details:
+Student ID
+Student Name
+Branch
+Year
+Section
+Phone Number
+Email
+Add:
+Add Student
+Edit Student
+Delete Student
+Search Student
+━━━━━━━━━━━━━━━━━━━━━━━ 📚 SUBJECT-WISE ATTENDANCE ━━━━━━━━━━━━━━━━━━━━━━━
+Each branch should contain separate subjects.
+Example:
+CSE Subjects:
+DBMS
+OS
+CN
+Java
+AIML Subjects:
+Machine Learning
+Python
+AI
+Data Science
+MECHANICAL Subjects:
+Thermodynamics
+Mechanics
+CAD
+Admin should be able to:
+Add subjects dynamically
+Assign subjects branch-wise
+Take attendance subject-wise
+Attendance should store:
+Student Name
+Student ID
+Branch
+Subject
+Date
+Time
+Present/Absent status
+━━━━━━━━━━━━━━━━━━━━━━━ 🔍 BINARY SEARCH IMPLEMENTATION ━━━━━━━━━━━━━━━━━━━━━━━
+Implement Binary Search for efficient searching.
+Use Binary Search to search:
+Student by ID
+Attendance by Date
+Attendance by Name
+Subject-wise records
+Records should first be sorted before applying Binary Search.
+Add comments in code:
+Binary Search logic
+Time complexity explanation
+━━━━━━━━━━━━━━━━━━━━━━━ 📅 DATE-WISE RECORD MANAGEMENT ━━━━━━━━━━━━━━━━━━━━━━━
+Create:
+Calendar date picker
+Filter attendance by selected date
+Arrange attendance records according to date
+Sort by:
+Newest first
+Oldest first
+Also allow:
+Branch-wise date filtering
+Subject-wise date filtering
+━━━━━━━━━━━━━━━━━━━━━━━ 🖨 PRINT SYSTEM ━━━━━━━━━━━━━━━━━━━━━━━
+Create professional attendance print reports.
+User should be able to:
+Select Branch
+Select Subject
+Select Date
+Print attendance accordingly
+Print report should contain:
+College Name
+Branch Name
+Subject Name
+Date
+Faculty Name
+Total Students
+Total Present
+Total Absent
+Attendance Percentage
+Student attendance table
+Printable format must be clean and professional.
+━━━━━━━━━━━━━━━━━━━━━━━ 📊 DASHBOARD ━━━━━━━━━━━━━━━━━━━━━━━
+Dashboard should display:
+Total Students
+Total Branches
+Subject Count
+Present Today
+Absent Today
+Attendance Percentage
+Add:
+Graphs
+Pie charts
+Statistics cards
+━━━━━━━━━━━━━━━━━━━━━━━ 🔎 FILTER & SEARCH SYSTEM ━━━━━━━━━━━━━━━━━━━━━━━
+Include filters:
+Branch-wise
+Subject-wise
+Date-wise
+Section-wise
+Year-wise
+Real-time search functionality required.
+━━━━━━━━━━━━━━━━━━━━━━━ 🔐 AUTHENTICATION ━━━━━━━━━━━━━━━━━━━━━━━
+Implement:
+JWT Authentication
+Admin Login
+Protected Routes
+Secure APIs
+━━━━━━━━━━━━━━━━━━━━━━━ ✨ EXTRA FEATURES ━━━━━━━━━━━━━━━━━━━━━━━
+Add:
+Export to PDF
+Export to Excel
+Pagination
+Toast notifications
+Loading animations
+Dark/Light mode
+Responsive UI
+━━━━━━━━━━━━━━━━━━━━━━━ 📁 PROJECT STRUCTURE ━━━━━━━━━━━━━━━━━━━━━━━
+Create proper structure:
+frontend
+backend
+models
+controllers
+routes
+middleware
+utils
+database
+━━━━━━━━━━━━━━━━━━━━━━━ ⚡ FINAL OUTPUT EXPECTED ━━━━━━━━━━━━━━━━━━━━━━━
+Fully working production-ready project
+Modern professional UI
+Proper comments
+Binary Search properly implemented
+Branch-wise subject management
+Date-wise printable attendance reports
+Clean code architecture
+Responsive design
+Also generate:
+README.md
+Installation guide
+API documentation
+Screenshots section
+Make the project visually impressive and suitable for college-level final year project presentation.

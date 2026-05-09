@@ -1,6 +1,6 @@
-# [Project name]
+# BTI Smart Attendance Monitoring System
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A full-stack smart attendance tracking platform for Bangalore Technological Institute — managing students, subjects, and attendance across 7 engineering branches with analytics and printable reports.
 
 ## Run & Operate
 
@@ -14,32 +14,54 @@ _Replace the heading above with the project's name, and this line with one sente
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
+- Frontend: React + Vite + Tailwind CSS, Recharts, next-themes (dark/light mode)
 - API: Express 5
 - DB: PostgreSQL + Drizzle ORM
+- Auth: Replit Auth (OpenID Connect / PKCE)
 - Validation: Zod (`zod/v4`), `drizzle-zod`
 - API codegen: Orval (from OpenAPI spec)
 - Build: esbuild (CJS bundle)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `lib/api-spec/openapi.yaml` — OpenAPI contract (source of truth)
+- `lib/db/src/schema/` — Drizzle schema files (branches, subjects, students, attendance, auth)
+- `artifacts/api-server/src/routes/` — Express route handlers
+- `artifacts/attendance-app/src/` — React frontend
+- `artifacts/attendance-app/src/lib/binary-search.ts` — Binary search utility (O(log n))
+- `artifacts/attendance-app/public/bti-logo.jpeg` — BTI college logo
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Contract-first: OpenAPI spec drives both React Query hooks and Zod validators via Orval codegen
+- Replit Auth used instead of local JWT — cleaner, production-grade OIDC with PKCE
+- PostgreSQL (Drizzle ORM) instead of MongoDB — already provisioned, better type safety
+- Binary search implemented client-side in a utility module with sorted arrays for O(log n) student lookup
+- Bulk attendance submission: single POST with array of records for efficient take-attendance flow
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Login with Replit Auth (faculty/admin)
+- Dashboard: stats cards, 30-day trend chart, branch-wise bar chart, subject stats
+- Branch management: CRUD for 7 branches (CSE, AIML, CE, CIVIL, MECHANICAL, ISE, CSDS)
+- Subject management: branch-specific subjects with CRUD
+- Student management: search/filter by branch/year/section, binary search by ID or name
+- Attendance: take attendance (bulk mark), view/filter records, pagination
+- Reports: printable attendance reports with BTI branding, export to CSV/PDF
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Empty database by default — no seed data, everything created dynamically
+- Replit Auth for secure admin login
+- BTI college branding throughout (logo, college name, affiliations)
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Always run `pnpm --filter @workspace/api-spec run codegen` after changing openapi.yaml
+- Always run `pnpm --filter @workspace/db run push` after changing DB schema files
+- `replit-auth-web` must be in both root tsconfig.json references AND the attendance-app tsconfig.json references
 
 ## Pointers
 
 - See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- See `.local/skills/replit-auth/SKILL.md` for auth architecture
