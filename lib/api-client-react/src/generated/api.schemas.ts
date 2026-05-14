@@ -130,6 +130,17 @@ export interface StudentUpdate {
   email?: string;
 }
 
+export interface PromoteStudentsInput {
+  branchId?: number;
+}
+
+export interface PromoteStudentsResult {
+  promoted: number;
+  graduatingCount: number;
+  /** @nullable */
+  branchName?: string | null;
+}
+
 export interface AttendanceRecord {
   id: number;
   studentId: number;

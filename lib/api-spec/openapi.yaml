@@ -351,6 +351,25 @@ paths:
               schema:
                 $ref: "#/components/schemas/Student"
 
+  /students/promote:
+    post:
+      operationId: promoteStudents
+      tags: [students]
+      summary: Promote students to the next academic year
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PromoteStudentsInput"
+      responses:
+        "200":
+          description: Promotion result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromoteStudentsResult"
+
   /students/{id}:
     get:
       operationId: getStudent
@@ -854,6 +873,23 @@ components:
           type: string
         email:
           type: string
+
+    PromoteStudentsInput:
+      type: object
+      properties:
+        branchId:
+          type: integer
+
+    PromoteStudentsResult:
+      type: object
+      required: [promoted, graduatingCount]
+      properties:
+        promoted:
+          type: integer
+        graduatingCount:
+          type: integer
+        branchName:
+          type: ["string", "null"]
 
     AttendanceRecord:
       type: object

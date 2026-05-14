@@ -40,6 +40,8 @@ import type {
   LogoutSuccess,
   MobileTokenExchangeRequest,
   MobileTokenExchangeSuccess,
+  PromoteStudentsInput,
+  PromoteStudentsResult,
   Student,
   StudentInput,
   StudentUpdate,
@@ -1602,6 +1604,92 @@ export const useCreateStudent = <
   TContext
 > => {
   return useMutation(getCreateStudentMutationOptions(options));
+};
+
+/**
+ * @summary Promote students to the next academic year
+ */
+export const getPromoteStudentsUrl = () => {
+  return `/api/students/promote`;
+};
+
+export const promoteStudents = async (
+  promoteStudentsInput: PromoteStudentsInput,
+  options?: RequestInit,
+): Promise<PromoteStudentsResult> => {
+  return customFetch<PromoteStudentsResult>(getPromoteStudentsUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(promoteStudentsInput),
+  });
+};
+
+export const getPromoteStudentsMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof promoteStudents>>,
+    TError,
+    { data: BodyType<PromoteStudentsInput> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof promoteStudents>>,
+  TError,
+  { data: BodyType<PromoteStudentsInput> },
+  TContext
+> => {
+  const mutationKey = ["promoteStudents"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof promoteStudents>>,
+    { data: BodyType<PromoteStudentsInput> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return promoteStudents(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type PromoteStudentsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof promoteStudents>>
+>;
+export type PromoteStudentsMutationBody = BodyType<PromoteStudentsInput>;
+export type PromoteStudentsMutationError = ErrorType<unknown>;
+
+/**
+ * @summary Promote students to the next academic year
+ */
+export const usePromoteStudents = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof promoteStudents>>,
+    TError,
+    { data: BodyType<PromoteStudentsInput> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof promoteStudents>>,
+  TError,
+  { data: BodyType<PromoteStudentsInput> },
+  TContext
+> => {
+  return useMutation(getPromoteStudentsMutationOptions(options));
 };
 
 /**

@@ -33,6 +33,8 @@ export * from "./listSubjectsParams";
 export * from "./logoutSuccess";
 export * from "./mobileTokenExchangeRequest";
 export * from "./mobileTokenExchangeSuccess";
+export * from "./promoteStudentsInput";
+export * from "./promoteStudentsResult";
 export * from "./student";
 export * from "./studentInput";
 export * from "./studentUpdate";

@@ -1,5 +1,5 @@
 import { Router, type IRouter } from "express";
-import { eq, and, ilike, or } from "drizzle-orm";
+import { eq, and, ilike, or, lt, sql } from "drizzle-orm";
 import { db, studentsTable, branchesTable } from "@workspace/db";
 import {
   CreateStudentBody,
@@ -154,6 +154,40 @@ router.patch("/students/:id", async (req, res): Promise<void> => {
     .leftJoin(branchesTable, eq(studentsTable.branchId, branchesTable.id))
     .where(eq(studentsTable.id, params.data.id));
   res.json(full);
+});
+
+router.post("/students/promote", async (req, res): Promise<void> => {
+  if (!req.isAuthenticated()) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+
+  const branchId = req.body?.branchId ? parseInt(req.body.branchId, 10) : undefined;
+  const branchCondition = branchId ? eq(studentsTable.branchId, branchId) : undefined;
+
+  // Count graduating students (currently year 4) before promotion
+  const graduatingRows = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(studentsTable)
+    .where(branchCondition ? and(eq(studentsTable.year, 4), branchCondition) : eq(studentsTable.year, 4));
+  const graduatingCount = graduatingRows[0]?.count ?? 0;
+
+  // Promote year 1→2, 2→3, 3→4 only; year 4 stays (they graduate)
+  const promoted = await db
+    .update(studentsTable)
+    .set({ year: sql`${studentsTable.year} + 1` })
+    .where(branchCondition
+      ? and(lt(studentsTable.year, 4), branchCondition)
+      : lt(studentsTable.year, 4))
+    .returning({ id: studentsTable.id });
+
+  let branchName: string | null = null;
+  if (branchId) {
+    const [branch] = await db.select().from(branchesTable).where(eq(branchesTable.id, branchId));
+    branchName = branch?.name ?? null;
+  }
+
+  res.json({ promoted: promoted.length, graduatingCount, branchName });
 });
 
 router.delete("/students/:id", async (req, res): Promise<void> => {

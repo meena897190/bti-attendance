@@ -250,6 +250,19 @@ export const CreateStudentBody = zod.object({
 });
 
 /**
+ * @summary Promote students to the next academic year
+ */
+export const PromoteStudentsBody = zod.object({
+  branchId: zod.number().optional(),
+});
+
+export const PromoteStudentsResponse = zod.object({
+  promoted: zod.number(),
+  graduatingCount: zod.number(),
+  branchName: zod.string().nullish(),
+});
+
+/**
  * @summary Get a student
  */
 export const GetStudentParams = zod.object({
