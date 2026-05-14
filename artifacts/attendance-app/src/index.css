@@ -176,10 +176,6 @@
   }
 }
 
-.print-only {
-  display: none;
-}
-
 @media print {
   body {
     @apply bg-white text-black;
