@@ -49,7 +49,7 @@ router.get("/students", async (req, res): Promise<void> => {
     .from(studentsTable)
     .leftJoin(branchesTable, eq(studentsTable.branchId, branchesTable.id))
     .where(conditions.length > 0 ? and(...conditions) : undefined)
-    .orderBy(studentsTable.name);
+    .orderBy(studentsTable.studentId);
 
   res.json(students);
 });
@@ -84,10 +84,6 @@ router.get("/students/:id", async (req, res): Promise<void> => {
 });
 
 router.post("/students", async (req, res): Promise<void> => {
-  if (!req.isAuthenticated()) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
   const parsed = CreateStudentBody.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.message });
@@ -114,10 +110,6 @@ router.post("/students", async (req, res): Promise<void> => {
 });
 
 router.patch("/students/:id", async (req, res): Promise<void> => {
-  if (!req.isAuthenticated()) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
   const params = UpdateStudentParams.safeParse(req.params);
   if (!params.success) {
     res.status(400).json({ error: params.error.message });
@@ -157,10 +149,6 @@ router.patch("/students/:id", async (req, res): Promise<void> => {
 });
 
 router.post("/students/promote", async (req, res): Promise<void> => {
-  if (!req.isAuthenticated()) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
 
   const branchId = req.body?.branchId ? parseInt(req.body.branchId, 10) : undefined;
   const branchCondition = branchId ? eq(studentsTable.branchId, branchId) : undefined;
@@ -191,10 +179,6 @@ router.post("/students/promote", async (req, res): Promise<void> => {
 });
 
 router.delete("/students/:id", async (req, res): Promise<void> => {
-  if (!req.isAuthenticated()) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
   const params = DeleteStudentParams.safeParse(req.params);
   if (!params.success) {
     res.status(400).json({ error: params.error.message });

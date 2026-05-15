@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { 
   useListBranches, 
@@ -42,13 +42,13 @@ export default function AttendancePage() {
   const createAttendance = useCreateAttendance();
 
   // Initialize attendance state when students load
-  useState(() => {
+  useEffect(() => {
     if (students && Object.keys(attendanceState).length === 0) {
       const initial: Record<number, boolean> = {};
       students.forEach(s => { initial[s.id] = true; }); // Default present
       setAttendanceState(initial);
     }
-  });
+  }, [students, attendanceState]);
 
   const toggleAll = (checked: boolean) => {
     if (!students) return;

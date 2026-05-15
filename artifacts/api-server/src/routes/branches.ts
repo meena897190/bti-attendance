@@ -37,10 +37,6 @@ router.get("/branches/:id", async (req, res): Promise<void> => {
 });
 
 router.post("/branches", async (req, res): Promise<void> => {
-  if (!req.isAuthenticated()) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
   const parsed = CreateBranchBody.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.message });
@@ -51,10 +47,6 @@ router.post("/branches", async (req, res): Promise<void> => {
 });
 
 router.patch("/branches/:id", async (req, res): Promise<void> => {
-  if (!req.isAuthenticated()) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
   const params = UpdateBranchParams.safeParse(req.params);
   if (!params.success) {
     res.status(400).json({ error: params.error.message });
@@ -78,10 +70,6 @@ router.patch("/branches/:id", async (req, res): Promise<void> => {
 });
 
 router.delete("/branches/:id", async (req, res): Promise<void> => {
-  if (!req.isAuthenticated()) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
   const params = DeleteBranchParams.safeParse(req.params);
   if (!params.success) {
     res.status(400).json({ error: params.error.message });

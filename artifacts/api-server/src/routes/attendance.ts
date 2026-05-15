@@ -49,7 +49,7 @@ router.get("/attendance/report", async (req, res): Promise<void> => {
     .leftJoin(subjectsTable, eq(attendanceTable.subjectId, subjectsTable.id))
     .leftJoin(branchesTable, eq(attendanceTable.branchId, branchesTable.id))
     .where(and(...conditions))
-    .orderBy(attendanceTable.date, studentsTable.name);
+    .orderBy(attendanceTable.date, studentsTable.studentId);
 
   const [branch] = await db.select().from(branchesTable).where(eq(branchesTable.id, query.data.branchId));
   const [subject] = await db.select().from(subjectsTable).where(eq(subjectsTable.id, query.data.subjectId));
@@ -131,10 +131,6 @@ router.get("/attendance", async (req, res): Promise<void> => {
 });
 
 router.post("/attendance", async (req, res): Promise<void> => {
-  if (!req.isAuthenticated()) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
   const parsed = CreateAttendanceBody.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.message });
@@ -144,6 +140,14 @@ router.post("/attendance", async (req, res): Promise<void> => {
   const inserted = await db
     .insert(attendanceTable)
     .values(parsed.data.records)
+    .onConflictDoUpdate({
+      target: [attendanceTable.studentId, attendanceTable.subjectId, attendanceTable.date],
+      set: {
+        status: sql`excluded.status`,
+        time: sql`excluded.time`,
+        updatedAt: new Date(),
+      },
+    })
     .returning();
 
   const ids = inserted.map(r => r.id);
@@ -159,10 +163,6 @@ router.post("/attendance", async (req, res): Promise<void> => {
 });
 
 router.patch("/attendance/:id", async (req, res): Promise<void> => {
-  if (!req.isAuthenticated()) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
   const params = UpdateAttendanceParams.safeParse(req.params);
   if (!params.success) {
     res.status(400).json({ error: params.error.message });
@@ -193,10 +193,6 @@ router.patch("/attendance/:id", async (req, res): Promise<void> => {
 });
 
 router.delete("/attendance/:id", async (req, res): Promise<void> => {
-  if (!req.isAuthenticated()) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
   const params = DeleteAttendanceParams.safeParse(req.params);
   if (!params.success) {
     res.status(400).json({ error: params.error.message });

@@ -1,13 +1,11 @@
-import { useEffect, type ComponentType } from "react";
-import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
+import { type ComponentType } from "react";
+import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useAuth } from "@workspace/replit-auth-web";
 import { ThemeProvider } from "next-themes";
 import { MainLayout } from "@/components/layout/main-layout";
 
-import LoginPage from "@/pages/login";
 import DashboardPage from "@/pages/dashboard";
 import BranchesPage from "@/pages/branches";
 import BranchDetailPage from "@/pages/branch-detail";
@@ -20,23 +18,7 @@ import NotFound from "@/pages/not-found";
 const queryClient = new QueryClient();
 
 function ProtectedRoute({ component: Component }: { component: ComponentType<any> }) {
-  const { isAuthenticated, isLoading } = useAuth();
-  const [, setLocation] = useLocation();
-
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      setLocation("/login");
-    }
-  }, [isLoading, isAuthenticated, setLocation]);
-
-  if (isLoading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
-  }
-
-  if (!isAuthenticated) {
-    return null;
-  }
-
+  // Temporarily bypass authentication for development
   return (
     <MainLayout>
       <Component />
@@ -47,7 +29,6 @@ function ProtectedRoute({ component: Component }: { component: ComponentType<any
 function Router() {
   return (
     <Switch>
-      <Route path="/login" component={LoginPage} />
       <Route path="/" component={() => <ProtectedRoute component={DashboardPage} />} />
       <Route path="/branches" component={() => <ProtectedRoute component={BranchesPage} />} />
       <Route path="/branches/:id" component={() => <ProtectedRoute component={BranchDetailPage} />} />

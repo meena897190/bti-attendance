@@ -38,10 +38,6 @@ router.get("/subjects", async (req, res): Promise<void> => {
 });
 
 router.post("/subjects", async (req, res): Promise<void> => {
-  if (!req.isAuthenticated()) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
   const parsed = CreateSubjectBody.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.message });
@@ -64,10 +60,6 @@ router.post("/subjects", async (req, res): Promise<void> => {
 });
 
 router.patch("/subjects/:id", async (req, res): Promise<void> => {
-  if (!req.isAuthenticated()) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
   const params = UpdateSubjectParams.safeParse(req.params);
   if (!params.success) {
     res.status(400).json({ error: params.error.message });
@@ -103,10 +95,6 @@ router.patch("/subjects/:id", async (req, res): Promise<void> => {
 });
 
 router.delete("/subjects/:id", async (req, res): Promise<void> => {
-  if (!req.isAuthenticated()) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
   const params = DeleteSubjectParams.safeParse(req.params);
   if (!params.success) {
     res.status(400).json({ error: params.error.message });
