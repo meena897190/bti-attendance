@@ -1,0 +1,20 @@
+{
+  "buildCommand": "cd artifacts/api-server && pnpm run build",
+  "outputDirectory": "artifacts/api-server/dist",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "artifacts/api-server/dist/index.mjs": {
+      "runtime": "nodejs20.x",
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "artifacts/api-server/dist/index.mjs"
+    }
+  ]
+}
