@@ -1,4 +1,4 @@
-# Bti-attendance
+# BANGALORE TECHNOLOGICAL INSTITUTE 
 
 
 # Smart Attendance System
